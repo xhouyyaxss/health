@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="ElementUI" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/../../../../侯向阳/Documents/外卖项目/flash-waimai/flash-waimai-mobile/element-ui" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../../../侯向阳/Documents/外卖项目/flash-waimai/flash-waimai-mobile/element-ui" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

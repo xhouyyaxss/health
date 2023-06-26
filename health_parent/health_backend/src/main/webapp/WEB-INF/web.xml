@@ -1,0 +1,55 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  <!-- 解决post乱码 -->
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter>
+    <!--整合spring security时，此过滤器的名称固定springSecurityFilterChain-->
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+   <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!--委派过滤器，用于整合其他框架-->
+
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <servlet>
+    <servlet-name>springmvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!-- 指定加载的配置文件 ，通过参数contextConfigLocation加载 -->
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:springmvc.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+<!--  /      拦截所有请求(包括静态资源)，但不会拦截jsp请求; 而 /*或者/** 会拦截jsp-->
+<!--  *     匹配单个字符，如 /user/* 匹配的是 /user/aa，/user/bb 等，又如  /user/*/ab 匹配到 /user/p/ab；-->
+<!--  **    匹配任意多字符(包括多级路径)，如：/user/** 匹配到 /user/aa、/user/p/bb 等；-->
+  /**包括多级子文件夹 /*不包含子文件夹
+<!--  如果自己配置了/就覆盖了官方的/,官方的/能够拦截所有包括.js .html,自己配置之后要放行一下-->
+<!--  ：方形的方法：配置资源映射，或者开启default handler-->
+  <servlet-mapping>
+    <servlet-name>springmvc</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+</web-app>

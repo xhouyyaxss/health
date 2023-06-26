@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxy.dao.CheckGroupDao">
+    <!--新增-->
+    <insert id="add" parameterType="com.hxy.pojo.CheckGroup">
+-- 通过mybatis提供的标签获得自增的id
+<selectKey resultType="Integer" order="AFTER" keyProperty="id">
+    select LAST_INSERT_ID()
+</selectKey>
+        insert into t_checkgroup(code,name,helpCode,sex,remark,attention)
+        values
+            (#{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
+    </insert>
+<!--    增加检查组检查项-->
+    <insert id="setGroupAndItem" parameterType="java.util.Map">
+      insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id) values(#{checkgroupId},#{checkitemId})
+    </insert>
+<!--    通过条件查询检查组-->
+    <select id="selectByCondition" parameterType="String" resultType="com.hxy.pojo.CheckGroup">
+
+        select * from t_checkgroup
+        <if test="value !=null and value.length > 0" >where code = #{value} or name = #{value} or helpCode = #{value}</if>
+
+    </select>
+<!--通过id删除检查组-->
+    <delete id="deleteById" parameterType="Integer">
+    delete from t_checkgroup where id= #{id}
+
+    </delete>
+<!--删除检查组和检查项-->
+    <delete id="deleteGroupAndItem" parameterType="Integer">
+          delete from t_checkgroup_checkitem where checkgroup_id=#{id}
+    </delete>
+
+<!--    按照检查组id查询检查对应检查项，查询中间关系表-->
+    <select id="findCheckItemIds" parameterType="Integer" resultType="Integer">
+
+select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{checkgroupId}
+
+    </select>
+
+    <update id="edit" parameterType="com.hxy.pojo.CheckGroup">
+
+        update t_checkgroup <set>
+        <if test="name!= null">name= #{name},</if>
+        <if test="code!= null">code= #{code},</if>
+        <if test="helpCode!= null">helpCode= #{helpCode},</if>
+        <if test="sex!= null">sex= #{sex},</if>
+        <if test="remark!= null">remark= #{remark},</if>
+        <if test="attention!= null">attention= #{attention},</if>
+    </set>
+        where id = #{id}
+    </update>
+
+    <select id="findAll" resultType="com.hxy.pojo.CheckGroup">
+select * from t_checkgroup
+    </select>
+<!--    &#45;&#45; 后面的那个id就是传进去的setmeal的id-->
+  <select id="findById" parameterType="Integer"  resultMap="findByResultMap">
+select * from t_checkgroup where id in (select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id})
+  </select>
+
+    <resultMap id="baseResultMap" type="com.hxy.pojo.CheckGroup" >
+        <id column="id" property="id"></id>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+    </resultMap>
+   <resultMap id="findByResultMap" type="com.hxy.pojo.CheckGroup" extends="baseResultMap" >
+
+<!--       id是查出的检查组的id-->
+       <collection property="checkItems" column="id" ofType="com.hxy.pojo.CheckItem" javaType="ArrayList"
+
+       select="com.hxy.dao.CheckItemDao.findCheckItemById">
+       </collection>
+   </resultMap>
+
+
+
+<!--    &lt;!&ndash;    按照检查项id统计数据&ndash;&gt;-->
+<!--    <select id="findCountByCheckItemId" parameterType="int" resultType="long">-->
+<!--        select count(*) from t_checkgroup_checkitem where checkitem_id = #{checkitem_id}-->
+
+<!--    </select>-->
+<!--    <delete id="deleteById" parameterType="int">-->
+
+<!--        delete from t_checkitem where id = #{id}-->
+<!--    </delete>-->
+
+
+<!--    <select id="findAll" resultType="com.hxy.pojo.CheckItem">-->
+
+<!--        select * from t_checkitem-->
+<!--    </select>-->
+
+</mapper>

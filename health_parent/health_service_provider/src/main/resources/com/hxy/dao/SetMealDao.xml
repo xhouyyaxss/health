@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxy.dao.SetMealDao">
+
+<insert id="add" parameterType="com.hxy.pojo.Setmeal">
+
+    <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+        select LAST_INSERT_ID()
+    </selectKey>
+    insert into t_setmeal(code,name,helpCode,sex,age,price,remark,attention,img)
+    values
+    (#{code},#{name},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+</insert>
+    <insert id="setMealAndGroup" parameterType="java.util.Map">
+    insert into t_setmeal_checkgroup(setmeal_id,checkgroup_id) values(#{setmealId},#{checkgroupId})
+    </insert>
+
+    <select id="selectByCondition" parameterType="String" resultType="com.hxy.pojo.Setmeal">
+        select * from t_setmeal
+            <if test="value != null and value.length > 0">
+            where code=#{value} or name=#{value} or helpCode=#{value}
+        </if>
+
+    </select>
+
+    <select id="findAll" resultType="com.hxy.pojo.Setmeal">
+
+    select * from t_setmeal
+    </select>
+
+<!--    <select id="findById" parameterType="Integer" resultType="com.hxy.pojo.Setmeal">-->
+<!--         select * from t_setmeal where id=#{id}-->
+
+<!--    </select>-->
+
+    <select id="findCheckGroup" parameterType="Integer" resultType="com.hxy.pojo.CheckGroup">
+     select * from t_setmeal_checkgroup where setmeal_id = #{id}
+
+    </select>
+
+<!--    关联查询-->
+<select id="findById" parameterType="Integer" resultMap="findByIdResultMap">
+
+    select * from t_setmeal where id = #{id}
+
+
+</select>
+
+<!--    表字段和实体类的映射，因此type是setmeal-->
+    <resultMap id="baseResultMap" type="com.hxy.pojo.Setmeal">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <result column="img" property="img"/>
+    </resultMap>
+    <resultMap id="findByIdResultMap" extends="baseResultMap" type="com.hxy.pojo.Setmeal">
+<!--        多对多的映射-->
+        <collection property="checkGroups" javaType="ArrayList" column="id" ofType="com.hxy.pojo.CheckGroup"
+                    select="com.hxy.dao.CheckGroupDao.findById" >
+<!--      column是查出来之后checkgroup的id-->
+        </collection>
+
+    </resultMap>
+
+    <select id="findSetmealCount" resultType="map">
+        SELECT s.name ,COUNT(o.id)  value FROM t_order o,t_setmeal s WHERE o.setmeal_id=s.id  GROUP BY s.name ORDER BY value DESC
+    </select>
+
+    <select id="findSetmealCountAndProportion" resultType="map">
+        SELECT s.name ,COUNT(o.id) setmeal_count ,COUNT(o.id)/(SELECT COUNT(*) FROM t_order) proportion  FROM t_order o,t_setmeal s WHERE o.setmeal_id=s.id  GROUP BY s.name ORDER BY setmeal_count DESC LIMIT 0,4
+    </select>
+
+</mapper>

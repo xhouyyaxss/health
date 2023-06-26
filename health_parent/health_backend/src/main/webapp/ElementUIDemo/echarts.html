@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>echarts</title>
+    <script src="../js/echarts.js"></script>
+</head>
+<body>
+<div id="main"  style="width: 600px;height: 400px;"></div>
+
+<script>
+    var mychart=echarts.init(document.getElementById('main'));
+
+    var option={
+         title:{
+             text: '入门示例'
+         },
+        tooltip: {},//光标停留时的提示
+        legend: {//图例
+             data: ['销量']
+        },
+        xAxis: {
+          data: ["衬衫","羊绒衫","裤子","靴子"]
+        },
+        yAxis: {
+
+        },
+        series: [{
+             name: '销量',
+            type: 'scatter',
+            data: [5,6,7,8]
+            // orient
+            // left
+        }]
+
+    };
+    //将数据设置在mychart中
+    mychart.setOption(option);
+
+</script>
+
+</body>
+</html>

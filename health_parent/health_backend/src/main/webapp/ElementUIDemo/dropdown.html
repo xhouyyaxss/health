@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <!-- 引入Vue -->
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+  <!-- 引入样式 -->
+  <link href="https://cdn.bootcss.com/element-ui/2.4.5/theme-chalk/index.css" rel="stylesheet">
+  <!-- 引入组件库 -->
+  <script src="https://cdn.bootcss.com/element-ui/2.6.1/index.js"></script>
+</head>
+<body>
+<div id="app">
+<!--  型号 触发方式 颜色-->
+  <el-dropdown split-button size="small" trigger="click" type="primary">
+    个人中心
+    <el-dropdown-menu slot="dropdown" >
+      <el-dropdown-item >退出系统</el-dropdown-item>
+      <el-dropdown-item divided>修改密码</el-dropdown-item>
+      <el-dropdown-item divided>联系管理员</el-dropdown-item>
+    </el-dropdown-menu>
+  </el-dropdown>
+  <el-dropdown split-button size="big" type="primary">
+    个人中心
+    <el-dropdown-menu slot="dropdown" >
+      <el-dropdown-item >退出系统</el-dropdown-item>
+      <el-dropdown-item divided>修改密码</el-dropdown-item>
+      <el-dropdown-item divided>联系管理员</el-dropdown-item>
+    </el-dropdown-menu>
+  </el-dropdown>
+
+</div>
+
+</body>
+<script>
+  new Vue({
+    el: '#app'
+  })
+</script>
+</html>

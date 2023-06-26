@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>导航菜单</title>
+  <!-- 引入Vue -->
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+  <!-- 引入样式 -->
+  <link href="https://cdn.bootcss.com/element-ui/2.4.5/theme-chalk/index.css" rel="stylesheet">
+  <!-- 引入组件库 -->
+  <script src="https://cdn.bootcss.com/element-ui/2.9.1/index.js"></script>
+</head>
+<body>
+<div id="app">
+<!--  变成水平-->
+  <el-menu  >
+    <el-menu-item index="1">处理中心</el-menu-item>
+    <el-submenu index="2">
+      <template slot="title">
+
+        <i class="el-icon-location"></i>
+        <span slot="titie">导航</span>
+
+      </template>
+      <el-menu-item index="2-1">选项1</el-menu-item>
+      <el-menu-item index="2-2">选项2</el-menu-item>
+      <el-menu-item index="2-3">选项3</el-menu-item>
+      <el-submenu index="2-4">
+        <template slot="title">选项4</template>
+        <el-menu-item index="2-4-1">选项1</el-menu-item>
+        <el-menu-item index="2-4-2">选项2</el-menu-item>
+        <el-menu-item index="2-4-3">选项3</el-menu-item>
+      </el-submenu>
+    </el-submenu>
+    <el-menu-item index="3" disabled>消息中心</el-menu-item>
+    <el-menu-item index="4">
+      <template slot="title">
+
+        <i class="el-icon-menu"></i>
+        <span slot="title"><a href="https://www.ele.me" target="_blank">订单管理</a></span>
+      </template>
+      </el-menu-item>
+  </el-menu>
+
+
+
+</div>
+
+</body>
+<script>
+  new Vue({
+    el: '#app'
+  });
+
+</script>
+
+
+</html>

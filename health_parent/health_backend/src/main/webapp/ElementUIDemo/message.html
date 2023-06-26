@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>消息提示</title>
+  <!-- 引入Vue -->
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+  <!-- 引入样式 -->
+  <link href="https://cdn.bootcss.com/element-ui/2.4.5/theme-chalk/index.css" rel="stylesheet">
+  <!-- 引入组件库 -->
+  <script src="https://cdn.bootcss.com/element-ui/2.9.1/index.js"></script>
+</head>
+<body>
+<div id="app">
+<el-button :plain="true" @click="open1">正常消息</el-button>
+  <el-button :plain="true" @click="open2">成功</el-button>
+  <el-button :plain="true" @click="open3">警告</el-button>
+  <el-button :plain="true" @click="open4">错误</el-button>
+</div>
+</body>
+<script>
+  new Vue({
+    el: '#app',
+    methods: {
+      open1() {
+        this.$message('这是一条消息');
+      },
+      open2()
+              {
+                this.$message({
+                  message: '恭喜你，这是一条成功的消息!',
+                  type: 'success'
+
+                              })
+              },
+      open3(){
+        this.$message({
+          message: '这是一条警告的消息!',
+          type: 'warning'
+    })
+      },
+
+                open4(){
+                  this.$message({
+                    message: '这是一条错误的消息!',
+                    type: 'error'
+                  })
+                }
+      }
+
+})
+</script>
+
+</html>
